@@ -1,0 +1,60 @@
+AgriSmart continuation verification
+====================================
+Python syntax compilation: PASS
+Selected unit tests: PASS
+Test command: python -m unittest tests.test_crop_prediction tests.test_disease_prediction.TestDiseasePrediction.test_prediction_with_no_image tests.test_advisory_rules tests.test_weather_service -v
+
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 718, in _warm_feature_flows
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 509, in _warm_drawing_and_image_flows
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/generated/interface/models.py", line 32861, in bring_to_front
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/remote.py", line 764, in __call__
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/client.py", line 175, in call
+artifact_tool.rpc.client.RemoteError: Element ordering requires an owning element collection.
+test_crop_prediction_is_valid (tests.test_crop_prediction.TestCropPrediction.test_crop_prediction_is_valid) ... /opt/pyvenv/lib/python3.13/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/pyvenv/lib/python3.13/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/pyvenv/lib/python3.13/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator Pipeline from version 1.9.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+ok
+test_crop_prediction_returns_result (tests.test_crop_prediction.TestCropPrediction.test_crop_prediction_returns_result) ... /opt/pyvenv/lib/python3.13/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/pyvenv/lib/python3.13/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/pyvenv/lib/python3.13/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator Pipeline from version 1.9.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+ok
+test_rejects_infinite_values (tests.test_crop_prediction.TestCropPrediction.test_rejects_infinite_values) ... ok
+test_rejects_non_numeric_values (tests.test_crop_prediction.TestCropPrediction.test_rejects_non_numeric_values) ... ok
+test_rejects_wrong_number_of_values (tests.test_crop_prediction.TestCropPrediction.test_rejects_wrong_number_of_values) ... ok
+test_prediction_with_no_image (tests.test_disease_prediction.TestDiseasePrediction.test_prediction_with_no_image) ... ok
+test_fertilizer_rejects_invalid_status (tests.test_advisory_rules.TestAdvisoryRules.test_fertilizer_rejects_invalid_status) ... ok
+test_fertilizer_returns_three_nutrients_without_dose (tests.test_advisory_rules.TestAdvisoryRules.test_fertilizer_returns_three_nutrients_without_dose) ... ok
+test_irrigation_considers_forecast_rain (tests.test_advisory_rules.TestAdvisoryRules.test_irrigation_considers_forecast_rain) ... ok
+test_irrigation_defers_when_soil_is_waterlogged (tests.test_advisory_rules.TestAdvisoryRules.test_irrigation_defers_when_soil_is_waterlogged) ... ok
+test_irrigation_rejects_negative_rainfall (tests.test_advisory_rules.TestAdvisoryRules.test_irrigation_rejects_negative_rainfall) ... ok
+test_empty_forecast_has_fallback (tests.test_weather_service.TestWeatherRiskRules.test_empty_forecast_has_fallback) ... ok
+test_rain_and_heat_flags (tests.test_weather_service.TestWeatherRiskRules.test_rain_and_heat_flags) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.003s
+
+OK
+
+
+
+Limitations of this verification:
+- TensorFlow was not installed in the isolated build environment, so the trained MobileNetV2 model was not loaded and the sample-image disease inference test was not run.
+- Streamlit was not installed in the isolated build environment, so the dashboard was syntax-checked but not launched interactively.
+- The live Open-Meteo network endpoints were not exercised here; weather risk-rule unit tests passed.
+- The saved crop model was serialized with scikit-learn 1.9.1. The build environment has a different scikit-learn version and emitted InconsistentVersionWarning during loading. Use the project's pinned requirements / matching model-training environment.
